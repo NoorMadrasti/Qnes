@@ -28,18 +28,15 @@
             color: #ffffff;
             border-radius: 10px;
         }
-        .btn-primary {
-            background-color: #3b82f6;
+        .btn-primary, .btn-secondary, .btn-success, .btn-info, .btn-warning {
             border: none;
+            transition: background-color 0.3s, transform 0.3s;
         }
-        .btn-secondary {
-            background-color: #10b981;
-            border: none;
-        }
-        .btn-success {
-            background-color: #ef4444;
-            border: none;
-        }
+        .btn-primary:hover { background-color: #4f46e5; transform: scale(1.05); }
+        .btn-secondary:hover { background-color: #0f766e; transform: scale(1.05); }
+        .btn-success:hover { background-color: #b91c1c; transform: scale(1.05); }
+        .btn-info:hover { background-color: #3b82f6; transform: scale(1.05); }
+        .btn-warning:hover { background-color: #facc15; transform: scale(1.05); }
         .dropdown-item:hover {
             background-color: #4b5563;
             color: #ffffff;
@@ -101,17 +98,22 @@
     </style>
 </head>
 <body>
-    <!-- شريط التنبيه في الأعلى -->
-    <div class="alert alert-info text-center mb-0" role="alert">
-        سجل دخولك لتظهر لك صفحات تأسيس قدرات وتحصيلي
-    </div>
-
-
+    <script>
+        var isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; 
+        if (isLoggedIn) {
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("qdrat").classList.remove("hidden");
+                document.getElementById("login-link").style.display = "none";
+                document.getElementById("register-link").style.display = "none";
+            });
+        }
+    </script>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">حساب النسبة المئوية</a>
         <div class="ml-auto">
             <a href="login.html" id="login-link">تسجيل الدخول</a>
+            <a href="register.html" id="register-link">إنشاء حساب</a>
             <a href="tasees_qa.html" id="qdrat" class="hidden">تأسيس القدرات</a>
             <span id="percentage-span" style="display:none;">نسبتك هي: <span id="percentage-value"></span>%</span>
         </div>
@@ -122,33 +124,34 @@
 
         <!-- أزرار المراحل -->
         <div class="text-center mb-4">
+            <!-- المرحلة الابتدائية -->
             <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    الابتدائي
-                </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الابتدائي</button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#" onclick="setGradeInputs(7, ['اللغة العربية', 'الرياضيات', 'العلوم', 'التربية الإسلامية', 'الدراسات الاجتماعية', 'اللغة الإنجليزية', 'المهارات الحياتية'])">ثالث ابتدائي</a>
-                    <!-- Other grade options... -->
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['اللغة العربية', 'الرياضيات', 'العلوم', 'الدراسات الاجتماعية', 'التربية الإسلامية', 'اللغة الإنجليزية'])">رابع ابتدائي</a>
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['اللغة العربية', 'الرياضيات', 'العلوم', 'الدراسات الاجتماعية', 'التربية الإسلامية', 'اللغة الإنجليزية'])">خامس ابتدائي</a>
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['اللغة العربية', 'الرياضيات', 'العلوم', 'الدراسات الاجتماعية', 'التربية الإسلامية', 'اللغة الإنجليزية'])">سادس ابتدائي</a>
                 </div>
             </div>
 
+            <!-- المرحلة المتوسطة -->
             <div class="btn-group mx-2">
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    المتوسط
-                </button>
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">المتوسط</button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="#" onclick="setGradeInputs(7, ['اللغة العربية', 'الرياضيات', 'العلوم', 'التربية الإسلامية', 'الدراسات الاجتماعية', 'اللغة الإنجليزية', 'الحاسب الآلي'])">أول متوسط</a>
-                    <!-- Other grade options... -->
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['اللغة العربية', 'الرياضيات', 'العلوم', 'التربية الإسلامية', 'الدراسات الاجتماعية', 'اللغة الإنجليزية'])">ثاني متوسط</a>
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['اللغة العربية', 'الرياضيات', 'العلوم', 'التربية الإسلامية', 'الدراسات الاجتماعية', 'اللغة الإنجليزية'])">ثالث متوسط</a>
                 </div>
             </div>
 
+            <!-- المرحلة الثانوية -->
             <div class="btn-group">
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    الثانوي
-                </button>
+                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الثانوي</button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['كفايات لغوية', 'الرياضيات', 'تفسير', 'اللغة الإنجليزية', 'الاحياء', 'تفكير نافد'])">أول ثانوي</a>
-                    <!-- Other grade options... -->
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['كفايات لغوية', 'الرياضيات', 'التفسير', 'اللغة الإنجليزية', 'الأحياء', 'التفكير الناقد'])">أول ثانوي</a>
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['كفايات لغوية', 'الرياضيات', 'الكيمياء', 'الفيزياء', 'اللغة الإنجليزية', 'التفسير'])">ثاني ثانوي</a>
+                    <a class="dropdown-item" href="#" onclick="setGradeInputs(6, ['كفايات لغوية', 'الرياضيات', 'الكيمياء', 'الفيزياء', 'اللغة الإنجليزية', 'الفقه'])">ثالث ثانوي</a>
                 </div>
             </div>
         </div>
@@ -159,6 +162,9 @@
         </form>
 
         <div id="result" class="alert alert-info text-center" style="display: none;"></div>
+        <div id="customHere's the continued code for your modified HTML:
+
+```html
         <div id="custom-message" class="text-center" style="display: none;"></div>
     </div>
 
@@ -167,14 +173,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // تحقق من حالة تسجيل الدخول
-        var isLoggedIn = false; // تعديل هنا لتكون true إذا كان المستخدم قد سجل الدخول
-        
-        if (isLoggedIn) {
-            document.getElementById("qdrat").classList.remove("hidden");
-        }
-
-        // دالة لتهيئة حقول الدرجات بناءً على المواد
         function setGradeInputs(totalSubjects, subjects) {
             const gradesContainer = document.getElementById("gradesContainer");
             gradesContainer.innerHTML = "";
@@ -182,7 +180,7 @@
             subjects.forEach((subject, index) => {
                 const inputGroup = document.createElement("div");
                 inputGroup.classList.add("form-group");
-                inputGroup.innerHTML = `
+                inputGroup.innerHTML = ` 
                     <label for="grade${index + 1}">درجة ${subject}</label>
                     <input type="number" class="form-control" id="grade${index + 1}" min="0" max="100" placeholder="ادخل درجة ${subject}">
                 `;
@@ -190,7 +188,6 @@
             });
         }
 
-        // دالة لحساب النسبة المئوية
         function calculatePercentage() {
             let total = 0;
             let validEntries = 0;
@@ -217,18 +214,6 @@
             }
         }
     </script>
-     <script>
-        // دالة للتحقق من تسجيل الدخول وإظهار صفحة تأسيس القدرات
-        function login() {
-            // جعل حالة تسجيل الدخول إلى true، ويمكنك تعديل هذه النقطة بناءً على تحققك من بيانات المستخدم
-            var isLoggedIn = true;
 
-            if (isLoggedIn) {
-                // إذا تم تسجيل الدخول، إظهار رابط "تأسيس القدرات" وتوجيه المستخدم إلى index.html
-                document.getElementById("qdrat").classList.remove("hidden");
-
-                // بعد الضغط على "تسجيل الدخول" سيتم نقله إلى الصفحة الرئيسية (index.html)
-                window.location.href = 'index.html';
-            }
-        }
-        <script/>
+</body>
+</html>
